@@ -15,7 +15,8 @@ MainThreadWatchDog.defaultInstance().stopWatch();
 ## Example
 Here is the example log, you can find from below what function of our code is time-consuming.
 
-```03-13 13:38:38.473  I/MainThreadWatchDog: ===============total:35 || >1078ms ===============
+```
+ I/MainThreadWatchDog: ===============total:35 || >1078ms ===============
  I/MainThreadWatchDog: 26 || >802ms || 74.397% ||
                        android.app.ActivityThread$H.handleMessage(ActivityThread.java:1405)
  I/MainThreadWatchDog: 16 || >495ms || 45.918% ||
