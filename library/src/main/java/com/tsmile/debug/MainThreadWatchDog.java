@@ -21,7 +21,7 @@ import java.util.Map;
 public class MainThreadWatchDog extends Thread {
 
     private static final String TAG = "MainThreadWatchDog";
-
+    private static boolean sDebug = true;
     private static MainThreadWatchDog sMainThreadWatchDog = new MainThreadWatchDog();
     private HashMap<WrappedStackTraceElement, TimeCounter> mLegacyStackTrace = new LinkedHashMap<>();
     private final Map<WrappedStackTraceElement, TimeCounter> mAllCareStackTrace = new LinkedHashMap<>();
@@ -36,8 +36,12 @@ public class MainThreadWatchDog extends Thread {
         return sMainThreadWatchDog;
     }
 
+    public static void setDebug(boolean debug) {
+        sDebug = debug;
+    }
+
     public synchronized void startWatch() {
-        if (mStarted) {
+        if (!sDebug || mStarted) {
             return;
         }
         mTotalTime.reset();
@@ -48,7 +52,7 @@ public class MainThreadWatchDog extends Thread {
     }
 
     public synchronized void stopWatch() {
-        if (!mStarted) {
+        if (!sDebug || !mStarted) {
             return;
         }
         mStarted = false;
