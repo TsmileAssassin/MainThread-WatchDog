@@ -35,7 +35,7 @@ publish {
     userOrg = 'tsmile'
     groupId = 'com.tsmile.debug'
     artifactId = 'mainthreadwatchdog'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     desc = 'A simple watchdog that found Android time-consuming operation in main thread'
     website = 'https://github.com/TsmileAssassin/MainThread-WatchDog'
 }

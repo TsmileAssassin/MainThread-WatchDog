@@ -45,6 +45,8 @@ public class MainThreadWatchDog extends Thread {
             return;
         }
         mTotalTime.reset();
+        mLegacyStackTrace.clear();
+        mAllCareStackTrace.clear();
         mStarted = true;
         mLastTimeDumpTrace = 0;
         setPriority(Thread.NORM_PRIORITY);
