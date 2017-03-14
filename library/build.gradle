@@ -37,5 +37,5 @@ publish {
     artifactId = 'mainthreadwatchdog'
     publishVersion = '1.0.0'
     desc = 'A simple watchdog that found Android time-consuming operation in main thread'
-    website = 'https://github.com/pinguo-chexing/MainThread-WatchDog'
+    website = 'https://github.com/TsmileAssassin/MainThread-WatchDog'
 }

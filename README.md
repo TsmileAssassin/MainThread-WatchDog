@@ -5,6 +5,8 @@ Every 30 milliseconds, we will take out  the stack of the main thread.Then compa
 ## Useage
  
 ```
+compile 'com.tsmile.debug:mainthreadwatchdog:1.0.0'
+
 // at the start point
 MainThreadWatchDog.defaultInstance().startWatch();        
 
