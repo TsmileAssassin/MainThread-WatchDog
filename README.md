@@ -18,8 +18,9 @@ MainThreadWatchDog.setDebug(false);
 ```
 
 ## Example
-Here is the example log, you can find from below what function of our code is time-consuming.
-
+Here is the example log. you can run app project, see the log from logcat.
+We can find TestApplication.initFunc1, TestApplication.initFunc2,
+TestMainActivity.initUi, TestMainActivity.resumeUiStatus, TestApplication$1.run may have some problem.
 ```
  I/MainThreadWatchDog: ===============total:35 || >1078ms ===============
  I/MainThreadWatchDog: 26 || >802ms || 74.397% ||
