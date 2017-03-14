@@ -12,6 +12,9 @@ MainThreadWatchDog.defaultInstance().startWatch();
 
 // at the end point
 MainThreadWatchDog.defaultInstance().stopWatch();
+
+// If it is a release version
+MainThreadWatchDog.setDebug(false);
 ```
 
 ## Example
