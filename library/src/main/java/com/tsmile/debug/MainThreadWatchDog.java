@@ -18,18 +18,20 @@ import java.util.Map;
  * <p>
  * Created by tsmile on 16/2/26.
  */
-public class MainThreadWatchDog extends Thread {
+public class MainThreadWatchDog implements Runnable {
 
     private static final String TAG = "MainThreadWatchDog";
     private static boolean sDebug = true;
     private static MainThreadWatchDog sMainThreadWatchDog = new MainThreadWatchDog();
+
     private HashMap<WrappedStackTraceElement, TimeCounter> mLegacyStackTrace = new LinkedHashMap<>();
     private final Map<WrappedStackTraceElement, TimeCounter> mAllCareStackTrace = new LinkedHashMap<>();
 
-    private long mSleepInterval = 30;
-    private TimeCounter mTotalTime = new TimeCounter();
+    private WatchDogThread mWatchDogThread;
     private volatile boolean mStarted;
 
+    private long mSleepInterval = 30;
+    private TimeCounter mTotalTime = new TimeCounter();
     private long mLastTimeDumpTrace;
 
     public static MainThreadWatchDog defaultInstance() {
@@ -49,8 +51,8 @@ public class MainThreadWatchDog extends Thread {
         mAllCareStackTrace.clear();
         mStarted = true;
         mLastTimeDumpTrace = 0;
-        setPriority(Thread.NORM_PRIORITY);
-        start();
+        mWatchDogThread = new WatchDogThread(this, TAG);
+        mWatchDogThread.start();
     }
 
     public synchronized void stopWatch() {
@@ -58,7 +60,6 @@ public class MainThreadWatchDog extends Thread {
             return;
         }
         mStarted = false;
-
 
         List<PriorityStackTraceProfile> priorityStackTraceProfileList
                 = new ArrayList<>();
@@ -99,8 +100,7 @@ public class MainThreadWatchDog extends Thread {
 
     @Override
     public void run() {
-        setName(TAG);
-        while (!isInterrupted() && mStarted) {
+        while (mStarted) {
             long begin = System.nanoTime();
             // 1 dump main thread
             final Thread mainThread = Looper.getMainLooper().getThread();
@@ -166,6 +166,7 @@ public class MainThreadWatchDog extends Thread {
                 try {
                     Thread.sleep(mSleepInterval - durationInMs);
                 } catch (InterruptedException e) {
+                    stopWatch();
                     return;
                 }
             }
@@ -294,6 +295,14 @@ public class MainThreadWatchDog extends Thread {
         void reset() {
             count = 0;
             timeList.clear();
+        }
+    }
+
+    private static class WatchDogThread extends Thread {
+        WatchDogThread(Runnable runnable, String name) {
+            super(runnable);
+            setPriority(Thread.NORM_PRIORITY);
+            setName(name);
         }
     }
 }
